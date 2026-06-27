@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual ChatGPT Docente Universitario</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #0D1B3E;
+    --blue:   #1B4F8A;
+    --sky:    #2E8FD8;
+    --cyan:   #00C6FF;
+    --gold:   #F4C430;
+    --white:  #FFFFFF;
+    --offwhite: #F0F4FA;
+    --gray:   #6B7A99;
+    --card:   rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46,143,216,0.22) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 90% 80%, rgba(0,198,255,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 10% 90%, rgba(27,79,138,0.25) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── HEADER ── */
+  header {
+    padding: 48px 0 32px;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,198,255,0.12);
+    border: 1px solid rgba(0,198,255,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--cyan); text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  .ai-icon {
+    font-size: 56px;
+    display: block;
+    margin: 0 auto 20px;
+    filter: drop-shadow(0 0 24px rgba(0,198,255,0.5));
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(24px, 5vw, 34px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  h1 span { color: var(--cyan); }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 36px 0;
+  }
+
+  /* ── INFO STRIP ── */
+  .info-strip {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+    margin-bottom: 36px;
+  }
+  .info-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12px; color: rgba(255,255,255,0.75);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .info-pill-icon { font-size: 15px; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--cyan);
+    margin-bottom: 14px;
+  }
+
+  /* ── CARDS ── */
+  .cards { display: flex; flex-direction: column; gap: 16px; margin-bottom: 36px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex; align-items: flex-start; gap: 18px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover { border-color: rgba(0,198,255,0.35); transform: translateY(-2px); }
+
+  .card-letter {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px; font-weight: 700;
+  }
+  .card-letter.a { background: rgba(46,143,216,0.2); color: var(--sky); border: 1px solid rgba(46,143,216,0.3); }
+  .card-letter.b { background: rgba(0,198,255,0.15); color: var(--cyan); border: 1px solid rgba(0,198,255,0.3); }
+
+  .card-body { flex: 1; }
+  .card-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .card-tag.a { color: var(--sky); }
+  .card-tag.b { color: var(--cyan); }
+
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px; font-weight: 600;
+    line-height: 1.3; margin-bottom: 14px;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none; cursor: pointer;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--sky), var(--blue));
+    color: var(--white);
+    box-shadow: 0 4px 14px rgba(46,143,216,0.35);
+  }
+  .btn-primary:hover { box-shadow: 0 6px 20px rgba(46,143,216,0.55); transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: var(--white);
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.14); transform: translateY(-1px); }
+
+  .btn-cyan {
+    background: linear-gradient(135deg, var(--cyan), #0099CC);
+    color: var(--navy);
+    box-shadow: 0 4px 14px rgba(0,198,255,0.3);
+  }
+  .btn-cyan:hover { box-shadow: 0 6px 20px rgba(0,198,255,0.5); transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 32px 0 48px;
+  }
+  .footer-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--gray);
+    margin-bottom: 6px;
+  }
+  .footer-sub { font-size: 11px; color: rgba(107,122,153,0.7); }
+
+  /* ── GRID STATS ── */
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-bottom: 36px;
+  }
+  .stat {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 12px; text-align: center;
+  }
+  .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; color: var(--cyan); line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 11px; color: var(--gray); line-height: 1.3; }
+
+  /* mobile */
+  @media (max-width: 480px) {
+    .btn-group { flex-direction: column; }
+    .btn { justify-content: center; }
+    .stats { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge"><span class="badge-dot"></span> Programa de Vinculación UPSE 2025</div>
+    <span class="ai-icon">🤖</span>
+    <h1>Manual de Configuración<br><span>ChatGPT</span> — Docente Universitario</h1>
+    <p class="subtitle">Exp. Fabricio Hernández &nbsp;·&nbsp; Universidad Península de Santa Elena (UPSE)<br>Programa de Vinculación: Inteligencia Artificial dirigida a Docentes</p>
+  </header>
+
+  <div class="divider"></div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Documentos disponibles</div></div>
+    <div class="stat"><div class="stat-num">9</div><div class="stat-label">Secciones del manual</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Prompts reutilizables</div></div>
+  </div>
+
+  <div class="info-strip">
+    <div class="info-pill"><span class="info-pill-icon">📥</span> Descarga gratuita</div>
+    <div class="info-pill"><span class="info-pill-icon">👁️</span> Vista previa disponible</div>
+    <div class="info-pill"><span class="info-pill-icon">📱</span> Acceso desde móvil</div>
+  </div>
+
+  <p class="section-label">📂 Materiales de la sesión</p>
+
+  <div class="cards">
+
+    <!-- Documento A -->
+    <div class="card">
+      <div class="card-letter a">A</div>
+      <div class="card-body">
+        <div class="card-tag a">Documento Principal</div>
+        <div class="card-title">Manual de Configuración de ChatGPT<br>para Docentes Universitarios</div>
+        <div class="btn-group">
+          <a class="btn btn-primary" href="https://drive.google.com/file/d/1QYDfsu1d75_MfGoQwP8ZSZZI_m6d3rMM/view?usp=sharing" target="_blank">
+            👁️ Ver documento
+          </a>
+          <a class="btn btn-secondary" href="https://drive.google.com/uc?export=download&id=1QYDfsu1d75_MfGoQwP8ZSZZI_m6d3rMM" target="_blank">
+            ⬇️ Descargar
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Documento B -->
+    <div class="card">
+      <div class="card-letter b">B</div>
+      <div class="card-body">
+        <div class="card-tag b">Documento Complementario</div>
+        <div class="card-title">Material de Apoyo — Prompts y<br>Recursos para la Práctica Docente</div>
+        <div class="btn-group">
+          <a class="btn btn-cyan" href="https://drive.google.com/file/d/1iZ5Fh1kVAv54M_ExmLbmj7u1mVr4cG0_/view?usp=sharing" target="_blank">
+            👁️ Ver documento
+          </a>
+          <a class="btn btn-secondary" href="https://drive.google.com/uc?export=download&id=1iZ5Fh1kVAv54M_ExmLbmj7u1mVr4cG0_" target="_blank">
+            ⬇️ Descargar
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <footer>
+    <div class="footer-logo">🎓 Universidad Península de Santa Elena — UPSE</div>
+    <div class="footer-sub">Programa de Vinculación · Inteligencia Artificial para Docentes · 2025</div>
+  </footer>
+
+</div>
+</body>
+</html>
